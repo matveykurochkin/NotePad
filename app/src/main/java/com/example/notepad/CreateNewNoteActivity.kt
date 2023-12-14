@@ -11,6 +11,7 @@ import com.example.notepad.databinding.CreateNewNoteBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class CreateNewNoteActivity : AppCompatActivity() {
 
@@ -80,6 +81,7 @@ class CreateNewNoteActivity : AppCompatActivity() {
                     existingNote?.let {
                         it.name = title
                         it.content = content
+                        it.creationDate = Date()
                         db.getDao().updateItem(it)
                     }
                 }

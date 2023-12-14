@@ -3,6 +3,8 @@ package com.example.notepad
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.Instant
+import java.util.Date
 
 @Entity (tableName = "items")
 data class Item (
@@ -12,4 +14,6 @@ data class Item (
     var name: String,
     @ColumnInfo(name = "content")
     var content: String,
+    @ColumnInfo(name = "creation_date")
+    var creationDate: Date = Date()
 )
