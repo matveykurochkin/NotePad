@@ -85,7 +85,7 @@ class CreateNewNoteActivity : AppCompatActivity() {
             }
         } else {
             runOnUiThread {
-                Toast.makeText(applicationContext, "Заметка не сохранена! Пожалуйста, заполните необходимые поля!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Заметка не сохранена!", Toast.LENGTH_SHORT).show()
             }
         }
     }
