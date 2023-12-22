@@ -3,10 +3,8 @@ package com.example.notepad
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.asLiveData
-import com.example.notepad.Item
-import com.example.notepad.MainDb
 import com.example.notepad.databinding.CreateNewNoteBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -23,7 +21,6 @@ class CreateNewNoteActivity : AppCompatActivity() {
         binding = CreateNewNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
         var noteId = intent.getIntExtra("noteId", -1)
-        Log.d("внутри блпблпюблп", "$noteId")// Получаем идентификатор заметки из интента
 
         if (noteId != -1) {
             // Если редактируем существующую заметку, загрузите ее данные и отобразите в полях
@@ -54,30 +51,30 @@ class CreateNewNoteActivity : AppCompatActivity() {
 
     private fun saveNote() {
         Log.d("SaveNoteActivity", "Save button clicked")
-        val title = binding.edName.text.toString()
-        val content = binding.edText.text.toString()
+        var title = binding.edName.text.toString()
+        var content = binding.edText.text.toString()
+
+        if (title.isEmpty() && content.isNotEmpty()) {
+            title = "Тема заметки"
+        } else if (title.isNotEmpty() && content.isEmpty()) {
+            content = "Текст заметки!"
+        }
 
         if (title.isNotEmpty() && content.isNotEmpty()) {
             var noteId = intent.getIntExtra("noteId", -1)
             val db = MainDb.getDb(this)
-            val localNoteId = noteId // Сохраняем копию noteId
-            Log.d("внутри 1", "1")
-            Log.d("внутри 11", "$localNoteId")
 
-            // Запускаем корутину для выполнения асинхронных операций
+            // для выполнения асинхронных операций
             GlobalScope.launch(Dispatchers.IO) {
                 if (noteId == -1) {
-                    Log.d("внутри 2", "2")
-                    // Если это новая заметка, создайте новый объект Item и вставьте его в базу данных
+                    // Если это новая заметка, создаем новый объект Item и вставьте его в базу данных
                     val newNote = Item(null, name = title, content = content)
                     Thread {
                         db.getDao().insertItem(newNote)
                     }.start()
                 } else {
-
                     // Если это редактирование существующей заметки, обновите данные в базе данных
                     val existingNote = db.getDao().getById(noteId)
-                    Log.d("внутри 3", "3")
                     existingNote?.let {
                         it.name = title
                         it.content = content
@@ -87,9 +84,9 @@ class CreateNewNoteActivity : AppCompatActivity() {
                 }
             }
         } else {
-            Log.d("внутри 4", "4")
-            // Предупреждение о том, что поля должны быть заполнены
-            // Вы можете здесь добавить логику обработки ошибок по вашему усмотрению
+            runOnUiThread {
+                Toast.makeText(applicationContext, "Заметка не сохранена! Пожалуйста, заполните необходимые поля!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

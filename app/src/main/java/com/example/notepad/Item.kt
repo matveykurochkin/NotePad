@@ -3,7 +3,6 @@ package com.example.notepad
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.Instant
 import java.util.Date
 
 @Entity (tableName = "items")

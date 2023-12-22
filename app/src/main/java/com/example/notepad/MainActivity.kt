@@ -3,16 +3,7 @@ package com.example.notepad
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -37,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         val db = MainDb.getDb(this)
 
         db.getDao().getAllItem().asLiveData().observe(this) { list ->
-            binding.notesContainer.removeAllViews() // Очищаем контейнер перед добавлением новых заметок
+            binding.notesContainer.removeAllViews() // Очищаем перед добавлением новых заметок
 
             list.forEach { note ->
                 val noteView = TextView(this)
@@ -91,7 +82,6 @@ class MainActivity : AppCompatActivity() {
                 buttonContainer.addView(editButton,buttonLayoutParams)
                 buttonContainer.addView(deleteButton,buttonLayoutParams)
 
-
                 binding.notesContainer.addView(noteView)
                 binding.notesContainer.addView(buttonContainer)
             }
@@ -99,12 +89,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.newNoteButton.setOnClickListener {
             val intent = Intent(this, CreateNewNoteActivity::class.java)
-            intent.putExtra("noteId", -1) // Передача -1L для новой заметки
+            intent.putExtra("noteId", -1)
             startActivity(intent)
         }
-
-
     }
-
-
 }

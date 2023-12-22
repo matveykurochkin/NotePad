@@ -4,11 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Новая надпись "Мои заметки" -->
-
-    <!-- Ваш список (tvList) -->
-
-    <!-- Ваша кнопка (newNoteButton) -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -62,7 +57,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
